@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .div {
+            --light: calc((var(--red) * 0.2126 + var(--green) * 0.7152 + var(--blue) * 0.0722 - var(--threshold)) * -100%);
+            color: hsl(0, 0%, var(--light));
+            background: rgb(var(--red), var(--green), var(--blue));
+        }
+    </style>
+</head>
+<body>
+<div class="div">font-color</div>
+</body>
+<script>
+    window.onload = function () {
+        const _style = document.createElement("style");
+        _style.innerText = `:root {--red: 91;--green: 135;--blue: 255;--threshold: 60;}`
+        document.head.appendChild(_style);
+    };
+</script>
+</html>
