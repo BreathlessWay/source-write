@@ -24,6 +24,42 @@ class CustomPromise {
         return new CustomPromise((resolve, reject) => reject(reason));
     };
 
+    static all = (promises) => {
+        return new CustomPromise((resolve, reject) => {
+            const promisesLength = promises.length;
+            if (!promisesLength) {
+                resolve([]);
+            } else {
+                const result = [];
+                let index = 0;
+                for (let i = 0; i < promisesLength; i++) {
+                    promises[i].then((value) => {
+                        result[i] = value;
+                        index++;
+                        if (index === promisesLength) {
+                            resolve(result);
+                        }
+                    }, (error) => {
+                        reject(error);
+                    });
+                }
+            }
+        });
+    };
+
+    static race = (promises) => {
+        return new CustomPromise((resolve, reject) => {
+            const promisesLength = promises.length;
+            if (!promisesLength) {
+                resolve();
+            } else {
+                for (let i = 0; i < promisesLength; i++) {
+                    promises[i].then((value) => resolve(value), (error) => reject(error));
+                }
+            }
+        });
+    };
+
     resolve = (value) => {
         if (this.state === PENDING) {
             this.state = FULFILLED;
