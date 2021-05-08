@@ -8,6 +8,10 @@
     "start": "tsc --watch",
     "dev": "babel src --watch -d lib"
   },
+  "bin": {
+    "create": ".bin/create",
+    "adds": ".bin/adds"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
