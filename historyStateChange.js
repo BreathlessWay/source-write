@@ -1,5 +1,5 @@
 const listener = (function () {
-    let prePath = location.href, hasChange = false;
+    let prePath = location.href;
     return function (cb) {
         if (!history.state) {
             cb(document.referrer);
@@ -9,7 +9,6 @@ const listener = (function () {
             const originMethod = history[methodName];
 
             return function () {
-                console.log(methodName, prePath);
                 cb(prePath);
                 prePath = location.href;
                 originMethod.apply(this, arguments);
@@ -20,15 +19,15 @@ const listener = (function () {
         history.replaceState = historyProxy("replaceState");
 
         window.onpopstate = function () {
-            console.log("onpopstate", prePath);
             cb(prePath);
             prePath = location.href;
         };
 
         window.onhashchange = function () {
-            console.log("onhashchange", prePath);
             cb(prePath);
             prePath = location.href;
         };
     };
 })();
+
+listener((referrer) => console.log(referrer));
