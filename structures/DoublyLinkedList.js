@@ -16,6 +16,15 @@ class DoublyLinkedList {
 		return this.length === 0;
 	}
 
+	get last () {
+		let current = this.head;
+		while (current.next) {
+			current = current.next;
+		}
+
+		return current;
+	}
+
 	add (item) {
 		const nodeItem = new NodeItem(item);
 		if (!this.head) {
@@ -51,6 +60,7 @@ class DoublyLinkedList {
 				pre.next = nodeItem;
 				nodeItem.pre = pre;
 				nodeItem.next = current;
+				current.pre = nodeItem;
 			}
 			this.length++;
 			return true;
@@ -64,6 +74,7 @@ class DoublyLinkedList {
 				index = 0;
 			if (position === 0) {
 				this.head = current.next;
+				this.head.pre = null;
 			} else {
 				while (index < position) {
 					current = current.next;
@@ -110,6 +121,19 @@ class DoublyLinkedList {
 		console.log(string);
 		return string;
 	}
+
+	toStringReverse () {
+		let current = this.last,
+			string = "";
+
+		while (current) {
+			string += current.value;
+			current = current.pre;
+		}
+
+		console.log(string);
+		return string;
+	}
 }
 
 const doublyLinkedList = new DoublyLinkedList();
@@ -124,4 +148,5 @@ doublyLinkedList.insert(3, 99);
 doublyLinkedList.removeAt(0);
 
 doublyLinkedList.toString();
+doublyLinkedList.toStringReverse();
 console.log(doublyLinkedList.indexOf(4));
