@@ -3,7 +3,7 @@ class NodeItem {
 		this.value = value;
 		this.next = null;
 	}
-}
+};
 
 class LinkList {
 	constructor () {
@@ -125,15 +125,15 @@ class LinkList {
 				nextNode = null;
 
 			while (current) {
-				let next = current.next
-				current.next = nextNode
-				nextNode = current
-				current = next
+				let next = current.next;
+				current.next = nextNode;
+				nextNode = current;
+				current = next;
 			}
 			this.head = nextNode;
 		}
 	}
-}
+};
 
 const linklist = new LinkList();
 
@@ -165,3 +165,5 @@ linklist.toString();
 
 linklist.reverse();
 linklist.toString();
+
+module.exports = LinkList
