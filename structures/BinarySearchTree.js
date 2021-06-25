@@ -103,47 +103,54 @@ class BinarySearchTree {
 		postOrderTraverseNode(this.root, cb);
 	}
 
+	findMinNode (node) {
+		let current = node;
+		while (current && current.left) {
+			current = current.left;
+		}
+		return current;
+	}
+
+	removeNodeLoop (node, value) {
+		if (!node) {
+			return null;
+		}
+
+		if (node.value < value) {
+			node.right = this.removeNodeLoop(node.right, value);
+			return node;
+		}
+		if (node.value > value) {
+			node.left = this.removeNodeLoop(node.left, value);
+			return node;
+		}
+		if (node.value === value) {
+			if (!node.left && !node.right) {
+				node = null;
+				return node;
+			}
+
+			if (node.left && !node.right) {
+				node = node.left;
+				return node;
+			}
+
+			if (!node.left && node.right) {
+				node = node.right;
+				return node;
+			}
+
+			if (node.left && node.right) {
+				const minNode = this.findMinNode(node.right);
+				node.value = minNode.value;
+				node.right = this.removeNodeLoop(node.right, minNode.value);
+				return node;
+			}
+		}
+	}
+
 	removeNode (value) {
-		let current = this.root,
-			previous = null,
-			key = "left";
-		while (current) {
-			if (current.value === value) {
-				break;
-			}
-
-			previous = current;
-			if (current.value < value) {
-				key = "right";
-				current = current.right;
-			} else {
-				key = "left";
-				current = current.left;
-			}
-		}
-
-		if (!current.left && !current.right) {
-			previous[key] = null;
-		}
-		if (current.left && !current.right) {
-			previous[key] = current.left;
-		}
-		if (!current.left && current.right) {
-			previous[key] = current.right;
-		}
-		if (current.left && current.right) {
-			let rightCurrent = current.right,
-				rightPrevious = null
-			while (rightCurrent.left){
-				rightPrevious = rightCurrent
-				rightCurrent = rightCurrent.left
-			}
-			const minNode = rightCurrent
-			minNode.right = current.right;
-			previous[key] = minNode;
-			rightPrevious.left = null
-		}
-
+		this.root = this.removeNodeLoop(this.root, value);
 		console.log(JSON.stringify(this.root));
 	}
 }
