@@ -1,22 +1,22 @@
 const quickSort = array => {
 	if (array.length < 2) return array;
 
-	let pivot = array[0],
+	let mid = array[0],
 		left = [],
 		right = [];
 
 	for (let i = 1; i < array.length; i++) {
-		if (array[i] < pivot) {
-			left.push(array[i]);
+		let item = array[i];
+		if (item < mid) {
+			left.push(item);
 		} else {
-			right.push(array[i]);
+			right.push(item);
 		}
 	}
-	return quickSort(left).concat(pivot, quickSort(right));
+
+	return quickSort(left).concat(mid, quickSort(right));
 };
 
 const array = [9, 5, 8, 1, 7];
 
-quickSort(array);
-
-console.log(array);
+console.log(quickSort(array));
